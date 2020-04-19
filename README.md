@@ -52,6 +52,6 @@ export default {
 // Then call the following code in any business code
 // to dispatch a global event so that any subcomponents
 // that listen to this event "global-event-name" respond to the event:
-Vue.emit('test-event', { arguments: 123 });
+Vue.emit('global-event-name', { arguments: 123 });
 
 ```
