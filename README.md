@@ -24,11 +24,15 @@ register vue plugin：
 import Handler from '@mudas/plugin-vue-handler';
 
 // bind Vue.emit()
+// bind this.$handler.on(type, handler, component = null)
+// bind this.$handler.off(type, component = null)
+// bind this.$handler.emit(type, option = null, component = null)
+
 Vue.use(Handler);
 ```
 
 
-### Usage	
+### Usage
 
 ```vue
 // app.vue or any children:
@@ -41,7 +45,7 @@ export default {
       this.methodTest(option);
     }
   },
-  
+
   methods: {
     methodTest(option) {
       console.warn('test-event.app:', this, option);

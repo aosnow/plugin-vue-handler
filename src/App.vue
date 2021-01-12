@@ -2,7 +2,9 @@
   <div id="app">
 
     <h2>测试</h2>
-    <el-button @click="emitEvent">派发全局事件</el-button>
+    <el-button @click="emitEvent('test-event', { arguments: 123 })">派发全局事件</el-button>
+    <el-button @click="addEvent('custom-event')">手动添加全局事件</el-button>
+    <el-button @click="emitEvent('custom-event', { arguments: 456 })">派发手动全局事件</el-button>
     <child></child>
 
   </div>
@@ -29,12 +31,16 @@ export default {
   },
 
   methods: {
-    emitEvent() {
-      Vue.emit('test-event', { arguments: 123 });
+    addEvent(type) {
+      this.$handler.on(type, this.methodTest, this);
+    },
+
+    emitEvent(type, data) {
+      Vue.emit(type, data);
     },
 
     methodTest(option) {
-      console.warn('test-event.app:', this, option);
+      console.warn('methodTest:', this, option);
     }
   }
 };
