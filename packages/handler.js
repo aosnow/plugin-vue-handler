@@ -64,16 +64,16 @@ function addEventListener(type, handler, component = null) {
 /**
  * 移除指定事件监听
  * @param {String} type 事件类型
- * @param {Vue} [component=null] 组件实例，若指定则只移除该组件内的事件
+ * @param {Vue} [component=null] 组件实例，若指定则只移除该组件内的事件，否则全量移除所有 type 类型监听事件回调
  */
 function removeEventListener(type, component = null) {
   const { _uid } = component || {};
   const handlers = eventTargetByName[type];
 
   if (Array.isArray(handlers) && handlers.length) {
-    eventTargetByName[type] = handlers.filter(({ component, handler }) => {
+    eventTargetByName[type] = _uid === undefined ? [] : handlers.filter(({ component, handler }) => {
       const { _uid: tid } = component || {};
-      return _uid === undefined || _uid !== tid;
+      return _uid !== tid;
     });
   }
 }
@@ -104,7 +104,7 @@ function emit(type, option = null, component = null) {
 
     finalHandlers.forEach(({ component, handler }) => {
       if (typeof handler === 'function') {
-        handler.call(component, option);
+        handler.call(component, { type, detail: option });
       }
     });
   }

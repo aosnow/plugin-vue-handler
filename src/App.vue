@@ -1,12 +1,22 @@
 <template>
   <div id="app">
 
-    <h2>测试</h2>
-    <el-button @click="emitEvent('test-event', { arguments: 123 })">派发全局事件</el-button>
-    <el-button @click="addEvent('custom-event')">手动添加全局事件</el-button>
-    <el-button @click="emitEvent('custom-event', { arguments: 456 })">派发手动全局事件</el-button>
+    <div>
+      <h3>test-event</h3>
+      <el-button @click="$handler.on('test-event', methodTest, self)">添加组件事件</el-button>
+      <el-button @click="$handler.on('test-event', methodTest)">添加事件</el-button>
+      <el-button @click="$handler.off('test-event')">移除全量</el-button>
+      <el-button @click="$handler.off('test-event', self)">移除组件</el-button>
+      <el-button @click="$handler.emit('test-event', { arguments: 123 }, self)">派发当前 test-event 事件</el-button>
+    </div>
+
     <child></child>
 
+    <div>
+      <h3>派发事件</h3>
+      <el-button @click="$handler.emit('test-event', { arguments: 123 })">派发 test-event 全局事件</el-button>
+      <el-button @click="$handler.emit('custom-event', { arguments: 456 })">派发 custom-event 全局事件</el-button>
+    </div>
   </div>
 </template>
 
@@ -20,27 +30,23 @@ export default {
   handler: {
     ['test-event'](option) {
       // this.methodTest(option);
-      console.warn('test-event.app:', this, option);
+      console.warn('test-event.app:', this && this._uid, option);
     }
   },
 
   data() {
     return {
-      value: ''
+      self: this
     };
   },
 
   methods: {
-    addEvent(type) {
-      this.$handler.on(type, this.methodTest, this);
-    },
-
-    emitEvent(type, data) {
-      Vue.emit(type, data);
+    emitEvent(type, option = null) {
+      this.$handler.emit(type, option, this);
     },
 
     methodTest(option) {
-      console.warn('methodTest:', this, option);
+      console.warn('methodTest:', this && this._uid, option);
     }
   }
 };

@@ -1,7 +1,7 @@
 {
 	"name": "@mudas/plugin-vue-handler",
-	"version": "0.0.2",
-	"description": "A library project using commonjs type",
+	"version": "0.0.3",
+	"description": "A library for global event",
 	"author": "mudas(aosnow@yeah.net)",
 	"license": "MIT",
 	"main": "dist/plugin-vue-handler.common.js",
