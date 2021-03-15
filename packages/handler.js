@@ -112,7 +112,10 @@ function emit(type, option = null, component = null) {
 
 export default function(Vue) {
   _Vue = Vue;
+  Vue.on = addEventListener;
+  Vue.off = removeEventListener;
   Vue.emit = emit;
+
   Vue.prototype.$handler = {
     on: addEventListener,
     off: removeEventListener,
